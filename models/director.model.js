@@ -1,36 +1,38 @@
 const { Sequelize, DataTypes } = require("sequelize");
 const sequelize = require("../utils/db");
-const users = sequelize.define(
-  "users",
+const directors = sequelize.define(
+  "directors",
   {
-    id: {
+    director_id: {
       autoIncrement: true,
       type: DataTypes.INTEGER,
       allowNull: false,
       primaryKey: true,
     },
-    email: {
-      type: DataTypes.STRING(500),
+    director_name: {
+      type: DataTypes.STRING(255),
       allowNull: false,
     },
-    password: {
-      type: DataTypes.STRING(500),
-      allowNull: false,
+    gender: {
+      type: DataTypes.TINYINT,
+      allowNull: true,
+      defaultValue: 0,
     },
   },
+
   {
     sequelize,
-    tableName: "users",
-    timestamps: false,
+    tableName: "directors",
+    timestamps: true,
     indexes: [
       {
         name: "PRIMARY",
         unique: true,
         using: "BTREE",
-        fields: [{ name: "id" }],
+        fields: [{ name: "director_id" }],
       },
     ],
   }
 );
 
-module.exports = users;
+module.exports = directors;
