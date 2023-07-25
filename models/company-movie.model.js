@@ -11,7 +11,7 @@ const company_movie = sequelize.define(
     },
     movie_id: {
       type: DataTypes.INTEGER,
-      allowNull: false,
+      allowNull: true,
       references: {
         model: "movies",
         key: "movie_id",
@@ -19,7 +19,7 @@ const company_movie = sequelize.define(
     },
     company_id: {
       type: DataTypes.INTEGER,
-      allowNull: false,
+      allowNull: true,
       references: {
         model: "companys",
         key: "company_id",

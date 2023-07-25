@@ -11,7 +11,7 @@ const language_movie = sequelize.define(
     },
     movie_id: {
       type: DataTypes.INTEGER,
-      allowNull: false,
+      allowNull: true,
       references: {
         model: "movies",
         key: "movie_id",
@@ -19,7 +19,7 @@ const language_movie = sequelize.define(
     },
     language_id: {
       type: DataTypes.INTEGER,
-      allowNull: false,
+      allowNull: true,
       references: {
         model: "languages",
         key: "language_id",

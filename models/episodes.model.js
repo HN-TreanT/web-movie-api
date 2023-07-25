@@ -11,7 +11,7 @@ const episodes = sequelize.define(
     },
     movie_id: {
       type: DataTypes.INTEGER,
-      allowNull: false,
+      allowNull: true,
       references: {
         model: "movies",
         key: "movie_id",

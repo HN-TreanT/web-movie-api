@@ -12,6 +12,8 @@ const _genre_movie = require("./genre-movie.model");
 const _director_movie = require("./director-movie.model");
 const _language_movie = require("./language-movie.model");
 const _country_movie = require("./country_movie.model");
+const _users = require("./user.model");
+const _role = require("./role.model");
 function initModels() {
   const movies = _movie;
   const episodes = __episodes;
@@ -27,6 +29,8 @@ function initModels() {
   const director_movie = _director_movie;
   const language_movie = _language_movie;
   const country_movie = _country_movie;
+  const users = _users;
+  const role = _role;
 
   movies.hasMany(episodes, { as: "episodes", foreignKey: "movie_id" });
   episodes.belongsTo(movies, { as: "movies", foreignKey: "movie_id" });
@@ -60,6 +64,9 @@ function initModels() {
   country_movie.belongsTo(movies, { as: "movies", foreignKey: "movie_id" });
   countries.hasMany(country_movie, { as: "country_movie", foreignKey: "country_id" });
   country_movie.belongsTo(countries, { as: "countries", foreignKey: "country_id" });
+
+  role.hasMany(users, { as: "users", foreignKey: "role_id" });
+  users.belongsTo(role, { as: "role", foreignKey: "role_id" });
   return {
     movies,
     episodes,
@@ -75,6 +82,8 @@ function initModels() {
     director_movie,
     language_movie,
     country_movie,
+    users,
+    role,
   };
 }
 const db = initModels();

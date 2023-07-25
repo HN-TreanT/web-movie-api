@@ -3,8 +3,8 @@ var nodemailer = require("nodemailer");
 const options = {
   service: "gmail",
   auth: {
-    user: "nodejs.nkt@gmail.com",
-    pass: "",
+    user: "hoangnammta2301@gmail.com",
+    pass: "rtikemkkstuvrfwf",
   },
 };
 
@@ -15,7 +15,7 @@ const Mail = (token, targetMail) => {
     else {
       console.log("connected successfully!");
       var mail = {
-        from: "nodejs.nkt@gmail.com",
+        from: "hoangnammta2301@gmail.com",
         to: targetMail,
         subject: "Verify Login",
         text: `Verify Token: ${token}`,
@@ -28,4 +28,37 @@ const Mail = (token, targetMail) => {
   });
 };
 
-module.exports = Mail;
+const PasswordMail = (newpassword, targetMail) => {
+  var transporter = nodemailer.createTransport(options);
+  // transporter.verify(async (error) => {
+  //   if (error) console.log("check err:", error);
+  //   else {
+  //     console.log("connected mail successfully");
+  //     var mail = {
+  //       from: "hoangnammta2301@gmail.com",
+  //       to: targetMail,
+  //       subject: "Mật khẩu mới của bạn",
+  //       text: `Mật khẩu:${newpassword}`,
+  //     };
+  //     transporter.sendMail(mail, (error, info) => {
+  //       if (error) console.log(error);
+  //       else console.log("email sent:" + info.response);
+  //     });
+  //   }
+  // });
+  var mail = {
+    from: "hoangnammta2301@gmail.com",
+    to: targetMail,
+    subject: "Mật khẩu mới của bạn",
+    text: `Mật khẩu:${newpassword}`,
+  };
+  transporter.sendMail(mail, (error, info) => {
+    if (error) console.log(error);
+    else console.log("email sent:" + info.response);
+  });
+};
+
+module.exports = {
+  Mail,
+  PasswordMail,
+};
