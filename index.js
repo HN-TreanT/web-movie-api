@@ -4,11 +4,13 @@ const bodyParser = require("body-parser");
 const pagination = require("./middleware/pagination");
 const pageNotfound = require("./helper/pageNotfound");
 const { api } = require("./config");
+const path = require("path");
 
 const route = require("./routes");
 const app = express();
 
-app.use(express.static("public"));
+// app.use(express.static("public"));
+app.use("/public", express.static(path.join(__dirname, "./public")));
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
