@@ -57,9 +57,21 @@ const CheckUploadAvatar = (req, res, next) => {
   next();
 };
 
+const mutipleUploadMovie = uploadMovie.fields([
+  { name: "url_video", maxCount: 10 },
+  { name: "poster_url", maxCount: 10 },
+  { name: "trailer_url", maxCount: 10 },
+]);
+
+const CheckMutipleUploadMovie = (req, res, next) => {
+  const files = req.files;
+  console.log(files);
+};
 module.exports = {
   // multipleUploads,
   // checkMultipleFile,
+  mutipleUploadMovie,
+  CheckMutipleUploadMovie,
   uploadAvartar,
   CheckUploadAvatar,
 };

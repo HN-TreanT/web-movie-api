@@ -1,9 +1,21 @@
 const userRoute = require("./user.route");
 const authRoute = require("./auth.route");
 const actorRoute = require("./actor.route");
+const genreRoute = require("./genre.route");
+const countryRoute = require("./country.route");
+const directorRoute = require("./director.route");
+const companyRoute = require("./company.route");
+const languageRoute = require("./language.route");
+const movieRoute = require("./movie.route");
 const route = (app) => {
   app.use("/api/user", userRoute);
   app.use("/api/auth", authRoute);
   app.use("/api/actor", actorRoute);
+  app.use("/api/genre", genreRoute);
+  app.use("/api/country", countryRoute);
+  app.use("/api/director", directorRoute);
+  app.use("/api/company", companyRoute);
+  app.use("/api/language", languageRoute);
+  app.use("/api/movie", movieRoute);
 };
 module.exports = route;

@@ -1,0 +1,10 @@
+const Route = require("express").Router();
+const tryCatch = require("../middleware/tryCatch");
+const { requireLogin, requireRole } = require("../middleware/auth");
+const languageController = require("../controller/language.controller");
+Route.get("/", tryCatch(languageController.get));
+Route.get("/:id", tryCatch(languageController.getById));
+Route.post("/create", tryCatch(languageController.create));
+Route.put("/:id", tryCatch(languageController.update));
+Route.delete("/:id", tryCatch(languageController.deleteById));
+module.exports = Route;
