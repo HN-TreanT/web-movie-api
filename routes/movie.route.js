@@ -13,11 +13,7 @@ Route.post(
   CheckMutipleUploadMovie,
   tryCatch(movieController.create)
 );
-Route.put(
-  "/:id",
-  // requireLogin,requireRole,
-  tryCatch(movieController.update)
-);
+Route.put("/:id", mutipleUploadMovie, CheckMutipleUploadMovie, tryCatch(movieController.update));
 Route.delete(
   "/:id",
   // requireLogin,requireRole

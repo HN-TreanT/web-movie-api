@@ -47,18 +47,14 @@ const create = async (req, res) => {
 const update = async (req, res) => {
   const actor = await db.actors.findOne({ where: { actor_id: req.params.id } });
   if (!actor) return responseInValid({ res, message: "not found actor" });
-  // if (req.body["avartar"] && actor.avartar && actor.avartar !== req.body["avartar"]) {
-  //   const pathOldImage = `${root}/${actor.avartar}`;
-  //   removeDir({ dir: pathOldImage });
-  // }
   if (req.body["avartar"]) {
-    const addTail = req.destination.concat("/", `actor-${actor.actor_id}-${req.originalname}`);
     const pathOldImage = `${root}/${actor.avartar}`;
+    if (actor.avartar && fs.existsSync(pathOldImage)) removeDir({ dir: pathOldImage });
+    const addTail = req.destination.concat("/", `actor-${actor.actor_id}-${req.originalname}`);
     fs.rename(req.body["avartar"], addTail, (err) => {
       if (err) console.log(err);
     });
     req.body["avartar"] = addTail;
-    if (actor.avartar) removeDir({ dir: pathOldImage });
   }
   await actor.update(req.body);
   return responseSuccessWithData({ res, data: actor });

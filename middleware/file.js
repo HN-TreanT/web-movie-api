@@ -4,36 +4,6 @@ const uploadMovie = multer({ dest: "public/movies" });
 const fs = require("fs");
 const { responseInValid } = require("../helper/ResponseRequests");
 
-// const multipleUploads = upload.fields([
-//   { name: "file", maxCount: 10 },
-//   { name: "image", maxCount: 10 },
-// ]);
-
-// const checkMultipleFile = (req, res, next) => {
-//   const files = req.files;
-//   const fields = ["file", "image"];
-
-//   if (!files) {
-//     console.log("file not change!");
-//   } else {
-//     fields.map((field) => {
-//       req.body[field] = [];
-//       if (files[field]) {
-//         files[field].map((file) => {
-//           const addTail = file.destination.concat("", file.originalname);
-//           req.body[field] = req.body[field].concat(addTail.split("/").slice(1).join("/"));
-//           fs.rename(file.path, addTail, (err) => {
-//             if (err) next(err);
-//             console.log("Uploaded field successfully!");
-//           });
-//         });
-//       }
-//     });
-//   }
-
-//   next();
-// };
-
 const uploadAvartar = uploadAvatarActor.fields([
   {
     name: "avartar",
@@ -43,6 +13,7 @@ const uploadAvartar = uploadAvatarActor.fields([
 
 const CheckUploadAvatar = (req, res, next) => {
   const files = req.files;
+
   if (!files["avartar"]) {
     console.log("file not changed");
   } else {
@@ -61,17 +32,34 @@ const CheckUploadAvatar = (req, res, next) => {
 };
 
 const mutipleUploadMovie = uploadMovie.fields([
-  { name: "poster_url", maxCount: 1 },
-  { name: "trailer_url", maxCount: 1 },
+  { name: "poster", maxCount: 1 },
+  { name: "trailer", maxCount: 1 },
 ]);
 
 const CheckMutipleUploadMovie = (req, res, next) => {
   const files = req.files;
-  console.log(files);
+  let fields = ["poster", "trailer"];
+  if (!files["poster"] && files["trailer"]) {
+    console.log("poster not changed");
+    fields = ["trailer"];
+  }
+  if (!files["trailer"] && files["poster"]) {
+    console.log("trailer not changed");
+    fields = ["poster"];
+  }
+  if (!files["trailer"] && !files["poster"]) {
+    console.log("trailer not changed");
+    fields = [];
+  }
+  fields.map((field) => {
+    req.body[field] = {};
+    req.body[field].url = files[field][0].path;
+    req.body[field].originalname = files[field][0].originalname;
+    req.body[field].destination = files[field][0].destination;
+  });
+  next();
 };
 module.exports = {
-  // multipleUploads,
-  // checkMultipleFile,
   mutipleUploadMovie,
   CheckMutipleUploadMovie,
   uploadAvartar,
