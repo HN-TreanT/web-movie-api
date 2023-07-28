@@ -1,8 +1,4 @@
-const {
-  reponseSuccess,
-  responseInValid,
-  responseSuccessWithData,
-} = require("../helper/ResponseRequests");
+const { reponseSuccess, responseInValid, responseSuccessWithData } = require("../helper/ResponseRequests");
 const db = require("../models/init-models");
 const { Op } = require("sequelize");
 
@@ -74,74 +70,83 @@ const getById = async (req, res) => {
       },
     ],
   });
-  if (!movie) return responseInValid({ res, message: "not found movie" });
-  return responseSuccessWithData({ res, data: movie });
+  if (!movie)
+    return responseInValid({
+      res,
+      message: "not found movie",
+    });
+  return responseSuccessWithData({
+    res,
+    data: movie,
+  });
 };
 const create = async (req, res) => {
   const { title, description, poster_url, trailer_url, isSeries } = req.body;
-  const movie = await db.movies.create({
-    title: title,
-    description: description,
-    poster_url: poster_url,
-    trailer_url: trailer_url,
-    isSeries: isSeries,
-  });
-  if (req.body.actors)
-    await db.actor_movie.bulkCreate(
-      req.body.actors.map((item) => {
-        return {
-          actor_id: item,
-          movie_id: movie.movie_id,
-        };
-      })
-    );
-  if (req.body.genres)
-    await db.genre_movie.bulkCreate(
-      req.body.genres.map((item) => {
-        return {
-          genre_id: item,
-          movie_id: movie.movie_id,
-        };
-      })
-    );
-  if (req.body.countries)
-    await db.country_movie.bulkCreate(
-      req.body.countries.map((item) => {
-        return {
-          country_id: item,
-          movie_id: movie.movie_id,
-        };
-      })
-    );
-  if (req.body.directors)
-    await db.director_movie.bulkCreate(
-      req.body.directors.map((item) => {
-        return {
-          director_id: item,
-          movie_id: movie.movie_id,
-        };
-      })
-    );
-  if (req.body.companies)
-    await db.company_movie.bulkCreate(
-      req.body.companies.map((item) => {
-        return {
-          company_id: item,
-          movie_id: movie.movie_id,
-        };
-      })
-    );
-  if (req.body.languages)
-    await db.language_movie.bulkCreate(
-      req.body.languages.map((item) => {
-        return {
-          language_id: item,
-          movie_id: movie.movie_id,
-        };
-      })
-    );
+  console.log("Check poster_url", poster_url);
+  console.log("check trailer_url", trailer_url);
+  // const movie = await db.movies.create({
+  //   title: title,
+  //   description: description,
+  //   poster_url: poster_url,
+  //   trailer_url: trailer_url,
+  //   isSeries: isSeries,
+  // });
+  // if (req.body.actors)
+  //   await db.actor_movie.bulkCreate(
+  //     req.body.actors.map((item) => {
+  //       return {
+  //         actor_id: item,
+  //         movie_id: movie.movie_id,
+  //       };
+  //     })
+  //   );
+  // if (req.body.genres)
+  //   await db.genre_movie.bulkCreate(
+  //     req.body.genres.map((item) => {
+  //       return {
+  //         genre_id: item,
+  //         movie_id: movie.movie_id,
+  //       };
+  //     })
+  //   );
+  // if (req.body.countries)
+  //   await db.country_movie.bulkCreate(
+  //     req.body.countries.map((item) => {
+  //       return {
+  //         country_id: item,
+  //         movie_id: movie.movie_id,
+  //       };
+  //     })
+  //   );
+  // if (req.body.directors)
+  //   await db.director_movie.bulkCreate(
+  //     req.body.directors.map((item) => {
+  //       return {
+  //         director_id: item,
+  //         movie_id: movie.movie_id,
+  //       };
+  //     })
+  //   );
+  // if (req.body.companies)
+  //   await db.company_movie.bulkCreate(
+  //     req.body.companies.map((item) => {
+  //       return {
+  //         company_id: item,
+  //         movie_id: movie.movie_id,
+  //       };
+  //     })
+  //   );
+  // if (req.body.languages)
+  //   await db.language_movie.bulkCreate(
+  //     req.body.languages.map((item) => {
+  //       return {
+  //         language_id: item,
+  //         movie_id: movie.movie_id,
+  //       };
+  //     })
+  //   );
 
-  return reponseSuccess({ res });
+  // return reponseSuccess({ res });
 };
 const update = async (req, res) => {};
 const deleteById = async (req, res) => {};

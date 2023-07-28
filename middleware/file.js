@@ -47,20 +47,22 @@ const CheckUploadAvatar = (req, res, next) => {
     console.log("file not changed");
   } else {
     const file = files["avartar"][0];
-    const addTail = file.destination.concat("/", file.originalname);
-    req.body["avartar"] = addTail;
-    fs.rename(file.path, addTail, (err) => {
-      if (err) next(err);
-      console.log("Uploaded field successfully!");
-    });
+    // const addTail = file.destination.concat("/", file.originalname);
+    // req.body["avartar"] = addTail;
+    // fs.rename(file.path, addTail, (err) => {
+    //   if (err) next(err);
+    //   console.log("Uploaded field successfully!");
+    // });
+    req.body["avartar"] = file.path;
+    req.originalname = file.originalname;
+    req.destination = file.destination;
   }
   next();
 };
 
 const mutipleUploadMovie = uploadMovie.fields([
-  { name: "url_video", maxCount: 10 },
-  { name: "poster_url", maxCount: 10 },
-  { name: "trailer_url", maxCount: 10 },
+  { name: "poster_url", maxCount: 1 },
+  { name: "trailer_url", maxCount: 1 },
 ]);
 
 const CheckMutipleUploadMovie = (req, res, next) => {

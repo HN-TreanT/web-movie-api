@@ -8,9 +8,9 @@ Route.get("/", tryCatch(movieController.get));
 Route.get("/:id", tryCatch(movieController.getById));
 Route.post(
   "/create",
-  //   mutipleUploadMovie,
-  //   CheckMutipleUploadMovie,
   // requireLogin,requireRole
+  mutipleUploadMovie,
+  CheckMutipleUploadMovie,
   tryCatch(movieController.create)
 );
 Route.put(
