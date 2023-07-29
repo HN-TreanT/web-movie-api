@@ -14,6 +14,7 @@ Route.post(
   tryCatch(movieController.create)
 );
 Route.put("/:id", mutipleUploadMovie, CheckMutipleUploadMovie, tryCatch(movieController.update));
+Route.put("/vote_view/:id", tryCatch(movieController.updateVoteAndView));
 Route.delete(
   "/:id",
   // requireLogin,requireRole

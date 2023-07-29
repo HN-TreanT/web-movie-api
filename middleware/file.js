@@ -2,7 +2,6 @@ const multer = require("multer");
 const uploadAvatarActor = multer({ dest: "public/avatar" });
 const uploadMovie = multer({ dest: "public/movies" });
 const fs = require("fs");
-const { responseInValid } = require("../helper/ResponseRequests");
 
 const uploadAvartar = uploadAvatarActor.fields([
   {
@@ -59,9 +58,29 @@ const CheckMutipleUploadMovie = (req, res, next) => {
   });
   next();
 };
+
+const mutipleUploadEpisodes = uploadMovie.fields([{ name: "video", maxCount: 10 }]);
+const checkMutipleUploadEpisodes = (req, res, next) => {
+  const files = req.files;
+  if (!files) {
+    console.log("file not changed");
+  } else {
+    req.body.video = files["video"].map((file, index) => {
+      return {
+        index: index,
+        originalname: file.originalname,
+        destination: file.destination,
+        path: file.path,
+      };
+    });
+  }
+  next();
+};
 module.exports = {
   mutipleUploadMovie,
   CheckMutipleUploadMovie,
   uploadAvartar,
   CheckUploadAvatar,
+  mutipleUploadEpisodes,
+  checkMutipleUploadEpisodes,
 };

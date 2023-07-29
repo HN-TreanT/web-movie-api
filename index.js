@@ -34,7 +34,7 @@ route(app);
 
 app.use("*", pageNotfound);
 
-const PORT = api.port;
+const PORT = api.port || 3000;
 app.listen(PORT, (err) => {
   if (err) console.log(err);
   else console.log(`app listen at ${PORT}`);

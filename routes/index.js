@@ -7,6 +7,7 @@ const directorRoute = require("./director.route");
 const companyRoute = require("./company.route");
 const languageRoute = require("./language.route");
 const movieRoute = require("./movie.route");
+const episodesRoute = require("./episodes.route");
 const route = (app) => {
   app.use("/api/user", userRoute);
   app.use("/api/auth", authRoute);
@@ -17,5 +18,6 @@ const route = (app) => {
   app.use("/api/company", companyRoute);
   app.use("/api/language", languageRoute);
   app.use("/api/movie", movieRoute);
+  app.use("/api/episodes", episodesRoute);
 };
 module.exports = route;
