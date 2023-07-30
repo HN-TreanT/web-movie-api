@@ -1,25 +1,35 @@
 const { reponseSuccess, responseInValid, responseSuccessWithData } = require("../helper/ResponseRequests");
+
 const db = require("../models/init-models");
-const { Op, where } = require("sequelize");
+const { Op, Sequelize, fn, col } = require("sequelize");
 const fs = require("fs");
 const path = require("path");
 const { removeDir } = require("../helper/file");
 const root = path.resolve("./");
 
 const get = async (req, res) => {
-  const { search } = req.query;
+  const { search, release_year } = req.query;
   let filter = {};
   if (search) filter.title = { [Op.substring]: search };
   const { count, rows } = await db.movies.findAndCountAll({
     where: {
       ...filter,
     },
+    include: [
+      {
+        model: db.episodes,
+        as: "episodes",
+        attributes: ["episode", "release_date"],
+        where: release_year ? Sequelize.where(fn("YEAR", col("release_date")), release_year) : "",
+      },
+    ],
+    order: [["updatedAt", "DESC"]],
     ...req.pagination,
   });
   return res.status(200).json({
     status: true,
     message: "success",
-    total: count,
+    total: rows.length,
     data: rows,
   });
 };
