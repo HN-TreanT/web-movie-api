@@ -62,7 +62,7 @@ const CheckMutipleUploadMovie = (req, res, next) => {
 const mutipleUploadEpisodes = uploadMovie.fields([{ name: "video", maxCount: 10 }]);
 const checkMutipleUploadEpisodes = (req, res, next) => {
   const files = req.files;
-  if (!files) {
+  if (!files["video"]) {
     console.log("file not changed");
   } else {
     req.body.video = files["video"].map((file, index) => {

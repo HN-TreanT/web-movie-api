@@ -16,6 +16,8 @@ Route.post(
 Route.put(
   "/:id",
   // requireLogin,requireRole,
+  mutipleUploadEpisodes,
+  checkMutipleUploadEpisodes,
   tryCatch(espisodesController.update)
 );
 Route.delete(
