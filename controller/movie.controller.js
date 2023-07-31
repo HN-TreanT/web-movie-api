@@ -8,8 +8,11 @@ const { removeDir } = require("../helper/file");
 const root = path.resolve("./");
 
 const get = async (req, res) => {
-  const { search, release_year } = req.query;
+  const { search, release_year, genre_id, isSeries, country_id, actor_id, director_id } = req.query;
   let filter = {};
+  if (isSeries) {
+    filter.isSeries = isSeries;
+  }
   if (search) filter.title = { [Op.substring]: search };
   const { count, rows } = await db.movies.findAndCountAll({
     where: {
@@ -21,6 +24,30 @@ const get = async (req, res) => {
         as: "episodes",
         attributes: ["episode", "release_date"],
         where: release_year ? Sequelize.where(fn("YEAR", col("release_date")), release_year) : "",
+      },
+      {
+        model: db.genre_movie,
+        as: "genre_movie",
+        attributes: ["genre_id"],
+        where: genre_id ? { genre_id: genre_id } : {},
+      },
+      {
+        model: db.country_movie,
+        as: "country_movie",
+        attributes: ["country_id"],
+        where: country_id ? { country_id: country_id } : {},
+      },
+      {
+        model: db.actor_movie,
+        as: "actor_movie",
+        attributes: ["actor_id"],
+        where: actor_id ? { actor_id: actor_id } : {},
+      },
+      {
+        model: db.director_movie,
+        as: "director_movie",
+        attributes: ["director_id"],
+        where: director_id ? { director_id: director_id } : {},
       },
     ],
     order: [["updatedAt", "DESC"]],
@@ -477,6 +504,32 @@ const deleteById = async (req, res) => {
   return reponseSuccess({ res });
 };
 
+const getTopRating = async (req, res) => {
+  const { count, rows } = await db.movies.findAndCountAll({
+    order: [["vote_avg", "DESC"]],
+    ...req.pagination,
+  });
+  return res.status(200).json({
+    status: true,
+    message: "success",
+    total: count,
+    data: rows,
+  });
+};
+
+const getTopView = async (req, res) => {
+  const { count, rows } = await db.movies.findAndCountAll({
+    order: [["view", "DESC"]],
+    ...req.pagination,
+  });
+  return res.status(200).json({
+    status: true,
+    message: "success",
+    total: count,
+    data: rows,
+  });
+};
+
 module.exports = {
   get,
   getById,
@@ -484,4 +537,6 @@ module.exports = {
   update,
   deleteById,
   updateVoteAndView,
+  getTopRating,
+  getTopView,
 };

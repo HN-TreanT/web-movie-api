@@ -5,6 +5,8 @@ const movieController = require("../controller/movie.controller");
 const { mutipleUploadMovie, CheckMutipleUploadMovie } = require("../middleware/file");
 
 Route.get("/", tryCatch(movieController.get));
+Route.get("/top-view", tryCatch(movieController.getTopView));
+Route.get("/top-rating", tryCatch(movieController.getTopRating));
 Route.get("/:id", tryCatch(movieController.getById));
 Route.post(
   "/create",
