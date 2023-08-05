@@ -25,6 +25,10 @@ const movies = sequelize.define(
       type: DataTypes.STRING(255),
       allowNull: true,
     },
+    cover_photo_url: {
+      type: DataTypes.STRING(255),
+      allowNull: true,
+    },
     view: {
       type: DataTypes.BIGINT,
       allowNull: false,

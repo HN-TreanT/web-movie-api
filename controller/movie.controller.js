@@ -140,7 +140,8 @@ const getById = async (req, res) => {
 };
 
 const create = async (req, res) => {
-  const fields = ["poster", "trailer"];
+  const fields = ["poster", "trailer", "cover_photo"];
+  console.log(req.body);
   const { title, description, isSeries, actors, genres, countries, directors, companies, languages } = req.body;
   const movie = await db.movies.create(
     {
@@ -214,6 +215,7 @@ const create = async (req, res) => {
         "/",
         `${field}-movie-${movie.movie_id}-${req.body[field].originalname}`
       );
+      console.log(addTail);
       fs.rename(req.body[field].url, addTail, (err) => {
         if (err) console.log(err);
       });
@@ -222,12 +224,13 @@ const create = async (req, res) => {
   });
   delete req.body.poster;
   delete req.body.trailer;
+  delete req.body.cover_photo;
   await movie.update(req.body);
   return responseSuccessWithData({ res, data: movie });
 };
 
 const update = async (req, res) => {
-  const fields = ["poster", "trailer"];
+  const fields = ["poster", "trailer", "cover_photo"];
   const { title, description, isSeries, actors, genres, countries, directors, companies, languages } = req.body;
 
   const movie = await db.movies.findOne({
@@ -265,7 +268,8 @@ const update = async (req, res) => {
     description,
     isSeries,
     poster_url: req.body.poster_url,
-    trailer: req.body.trailer_url,
+    trailer_url: req.body.trailer_url,
+    cover_photo_url: req.body.cover_photo_url,
   });
 
   //actor

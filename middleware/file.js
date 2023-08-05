@@ -31,25 +31,37 @@ const CheckUploadAvatar = (req, res, next) => {
 };
 
 const mutipleUploadMovie = uploadMovie.fields([
+  { name: "cover_photo", maxCount: 1 },
   { name: "poster", maxCount: 1 },
   { name: "trailer", maxCount: 1 },
 ]);
 
 const CheckMutipleUploadMovie = (req, res, next) => {
   const files = req.files;
-  let fields = ["poster", "trailer"];
-  if (!files["poster"] && files["trailer"]) {
-    console.log("poster not changed");
-    fields = ["trailer"];
+  // let fields = ["poster", "trailer"];
+  // if (!files["poster"] && files["trailer"]) {
+  //   console.log("poster not changed");
+  //   fields = ["trailer"];
+  // }
+  // if (!files["trailer"] && files["poster"]) {
+  //   console.log("trailer not changed");
+  //   fields = ["poster"];
+  // }
+  // if (!files["trailer"] && !files["poster"]) {
+  //   console.log("trailer not changed");
+  //   fields = [];
+  // }
+  let fields = [];
+  if (files["cover_photo"]) {
+    fields.push("cover_photo");
   }
-  if (!files["trailer"] && files["poster"]) {
-    console.log("trailer not changed");
-    fields = ["poster"];
+  if (files["poster"]) {
+    fields.push("poster");
   }
-  if (!files["trailer"] && !files["poster"]) {
-    console.log("trailer not changed");
-    fields = [];
+  if (files["trailer"]) {
+    fields.push("trailer");
   }
+
   fields.map((field) => {
     req.body[field] = {};
     req.body[field].url = files[field][0].path;
