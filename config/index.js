@@ -1,13 +1,20 @@
+require("dotenv").config();
 const config = {
   api: {
     port: 8000,
   },
   database: {
-    username: "admin",
-    password: "hnam23012002",
-    database: "movieDb",
+    // username: "admin",
+    // password: "hnam23012002",
+    // database: "movieDb",
+    // port: 3306, // thay đổi port kết nối tới MySQL từ 8080 thành 3307
+    // host: "localhost",
+    // dialect: "mysql",
+    username: process.env.MYSQL_ADDON_USER,
+    password: process.env.MYSQL_ADDON_PASSWORD,
+    database: process.env.MYSQL_ADDON_DB,
     port: 3306, // thay đổi port kết nối tới MySQL từ 8080 thành 3307
-    host: "localhost",
+    host: process.env.MYSQL_ADDON_HOST,
     dialect: "mysql",
     pool: {
       max: 5,
