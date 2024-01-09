@@ -211,10 +211,7 @@ const create = async (req, res) => {
 
   fields.map((field) => {
     if (req.body[field]) {
-      const addTail = req.body[field].destination.concat(
-        "/",
-        `${field}-movie-${movie.movie_id}-${req.body[field].originalname}`
-      );
+      const addTail = req.body[field].destination.concat("/", `${field}-movie-${movie.movie_id}-${req.body[field].originalname}`);
       console.log(addTail);
       fs.rename(req.body[field].url, addTail, (err) => {
         if (err) console.log(err);
@@ -251,10 +248,7 @@ const update = async (req, res) => {
   fields.map((field) => {
     if (req.body[field]) {
       const oldUrl = `${root}/${movie[`${field}_url`]}`;
-      const addTail = req.body[field].destination.concat(
-        "/",
-        `${field}-movie-${movie.movie_id}-${req.body[field].originalname}`
-      );
+      const addTail = req.body[field].destination.concat("/", `${field}-movie-${movie.movie_id}-${req.body[field].originalname}`);
       fs.rename(req.body[field].url, addTail, (err) => {
         if (err) console.log(err);
       });
