@@ -47,9 +47,12 @@ services:
   nginx:
     build: ./nginx
     ports:
+
       - '3000:80'
     depends_on:
       - backend
+    networks:
+      - movie_api_network
 networks:
   movie_api_network:
     driver: bridge
